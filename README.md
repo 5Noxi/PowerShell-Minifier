@@ -1,8 +1,21 @@
 # PowerShell-Minifier
-Removes unnecessary content (extra spaces...), formatting, replaces commands with their aliases to create a "minified" version of the script ;D (Alias taken from 'get-alias') 
+Removes unnecessary content (extra spaces...), formatting, replaces commands with their aliases to create a "**minified**" version of the script. (Alias taken from '*get-alias*') Afterwards, creates one liners (optional), by writing all lines into one line and splitting them with `;`. *(skips comments)* You may have to rewrite your code a bit, as rewriting them into one liners sometimes causes issues!
 
-**Optional:** Afterwards, creates one-liners, by writing all lines into one line and splitting them with `;`. *(skips comments)*
-Tested with a file with a size of `63.725 bytes`, which got reduced to`50.239 bytes`
+__Simple example (one of the most common problems):__
+```ps
+1..3 |
+? {$_ -gt 2}
+```
+would get minified to:
+```ps
+1..3 |;? {$_ -gt 2}
+```
+-> throws error
+```ps
+1..3 | ? {$_ -gt 2}
+```
+Solution: Make sure to write code that uses pipelines into a **single line**
+There may be similar issues, just go trough the minified code and it should be self explaining how to fix it.
 
 **Preview**
 ![minpre](https://github.com/5Noxi/PowerShell-Minifier/blob/main/NVMinifier.png?raw=true)
@@ -11,7 +24,7 @@ Tested with a file with a size of `63.725 bytes`, which got reduced to`50.239 by
 - https://discord.gg/E2ybG4j9jU
 
 ## Features
-- Removes extra spaces, newlines, and formats for compact output.  
+- Removes extra spaces, newlines, and formats for compact output
 - Joins consecutive lines with `;` unless it's a comment *(optional)*
 - Cleans up `{}`, `()`, `=`, `,`, `|`  *(spacing)*
 - Shortens commands (`New-Item` > `ni`, `Write-Host` > `nvwh`) - all taken from `Get-Alias`
@@ -19,42 +32,26 @@ Tested with a file with a size of `63.725 bytes`, which got reduced to`50.239 by
 
 ## Example
 *Before:*
-```
-if ($NoverseDL -match '^[A-Z]$') {
-    $NoverseDP = "${NoverseDL}:\"
-    $NoverseP = $null
-
-    try {
-        $NoverseP = Get-ChildItem -Path $NoverseFoDP -Filter "random" -Directory -Recurse -ErrorAction SilentlyContinue |
-                               Where-Object { Test-Path "$($_.FullName)\child" } |
-                               Select-Object -First 1 -ExpandProperty FullName
-        if ($NoverseP) {
-            bannercyan
-            Write-Host "$NoverseP"
-            Start-Sleep -Seconds 1
-        } else {
-            bannerred
-            Write-Host " Directory not found" -ForegroundColor Yellow
-            Start-Sleep -Seconds 1
-            NoverseChoice
-        }
-    } catch {
-        bannerred
-        Write-Host " Error" -foregroundcolor red
-        Start-Sleep -Seconds 1
-        NoverseChoice
+```ps
+function key {
+    param ([ref]$usedvars,[string[]]$vars)
+    if (-not ($usedvars.Value -is [System.Collections.ArrayList])) {$usedvars.Value = @()}
+    $basevar = $vars | Get-random
+    while ($true) {
+        $length = Get-random -Minimum 32 -Maximum 65
+        $chars = "abc"
+        $nvrandoms = -join (1..$length | ForEach-Object { $chars[(Get-random -Minimum 0 -Maximum $chars.Length)] })
+        $combinedvar = $basevar + $nvrandoms
+        if (-not ($usedvars.Value -contains $combinedvar)) {$usedvars.Value += $combinedvar;return $combinedvar}
     }
-} else {
-    bannerred
-    Write-Host " Invalid input" -foregroundcolor red
-    Start-Sleep -Seconds 1
-    NoverseDebloat
 }
 ```
 *After:*
+```ps
+sal -name nvwh -value Write-Host;function mathkey{param ([ref]$usedvars,[string[]]$vars); if (-not($usedvars.Value -is[System.Collections.ArrayList])){$usedvars.Value=@()}; $basevar=$vars | Get-random; while ($true){$length=Get-random -Minimum 32 -Maximum 65; $chars="abc"; $nvrandoms=-join(1..$length |%{$chars[(Get-random -Minimum 0 -Maximum $chars.Length)]}); $combinedvar=$basevar + $nvrandoms; if (-not($usedvars.Value -contains$combinedvar)){$usedvars.Value +=$combinedvar;return $combinedvar}}}
 ```
-sal -name nvwh -value Write-Host;if ($NoverseDL -match'^[A-Z]$'){$NoverseDP="${NoverseDL}:\"; $NoverseP=$null; try{$NoverseP=dir -Path $NoverseFoDP -Filter "random" -Directory -Recurse -ea SilentlyContinue |; ?{Test-Path "$($_.FullName)\child"}|; select -First 1 -ExpandProperty FullName; if ($NoverseP){bannercyan; nvwh "$NoverseP"; sleep -Seconds 1}else{bannerred; nvwh " Directory not found" -ForegroundColor Yellow; sleep -Seconds 1; NoverseChoice}}catch{bannerred; nvwh " Error" -foregroundcolor red; sleep -Seconds 1; NoverseChoice}}else{bannerred; nvwh " Invalid input" -foregroundcolor red; sleep -Seconds 1; NoverseDebloat}
-```
+
+Tested with a file with a size of `63.725 bytes`, which got reduced to`50.239 bytes`
 
 ## Usage
 `nvi` -> Input
