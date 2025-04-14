@@ -1,5 +1,5 @@
-﻿#    Powershell Minifier
-#    Copyright (C) 2024 Noverse
+#    Powershell Minifier
+#    Copyright (C) 2025 Noverse
 #
 #    This program is proprietary software: you may not copy, redistribute, or modify
 #    it in any way without prior written permission from Noverse.
@@ -16,8 +16,8 @@
 
 param([string]$nvi, [string]$nvo)
 $nv = "Authored by Noxi-Hu - (C) 2025 Noverse"
-sv -Scope Global -Name "ErrorActionPreference" -Value "stop"
-sv -Scope Global -Name "ProgressPreference" -Value "SilentlyContinue"
+sv -Scope Global -Name "erroractionpreference" -Value "stop"
+sv -Scope Global -Name "progresspreference" -Value "silentlycontinue"
 iwr 'https://github.com/5Noxi/5Noxi/releases/download/Logo/nvbanner.ps1' -o "$env:temp\nvbanner.ps1";. $env:temp\nvbanner.ps1
 $Host.UI.RawUI.BackgroundColor="Black"
 $Host.UI.RawUI.WindowTitle="Noxi's Powershell Minifier"
@@ -35,40 +35,40 @@ bannercyan;if($nv -notmatch ([SYSTeM.teXT.encOding]::Utf8.gETsTRINg((0x4e, 0x6f,
 .([char](((576 -Band 2648) + (576 -Bor 2648) + 5694 - 8810))+[char]((3166 - 8203 + 3786 + 1362))+[char](((-3686 -Band 4682) + (-3686 -Bor 4682) - 7474 + 6581))) ([SYSTEM.text.ENcOdInG]::Utf8.GEtString((91, 33, 93))) ([SySTeM.text.ENCODing]::UTf8.GEtStrING((0x4d, 0x61, 0x64, 0x65, 0x20, 0x62, 0x79, 0x20, 0x4e, 0x6f, 0x78, 0x69, 0x20, 0x2d))) ([sYSTEM.text.EnCodInG]::UtF8.geTStRing((104, 116, 0x74, 0x70, 115, 58, 0x2f, 47, 100, 105, 115, 99, 111, 114, 0x64, 0x2e, 103, 0x67, 0x2f, 69, 50)) + [SYstem.TEXT.EnCODInG]::uTF8.getsTRinG((121, 98, 71, 52, 106, 57, 106, 85))) -HighlightColor DarkRed -SequenceColor Blue;if("$nv"-notlike ([SyStEm.tEXT.enCoDING]::UTf8.GEtStRIng((42, 78)) + [sYsTeM.tExt.EncoDIng]::uTF8.getStRINg((0x6f, 0x78)) + [SYSTeM.text.ENCoDiNG]::UTF8.gEtsTRInG([systEm.cOnverT]::froMBaSe64String('aSo=')))){.([char](((-12285 -Band 1493) + (-12285 -Bor 1493) + 5155 + 5752))+[char](((-2805 -Band 8237) + (-2805 -Bor 8237) + 3146 - 8466))+[char]((580 - 335 + 5552 - 5685))+[char](((-14392 -Band 3990) + (-14392 -Bor 3990) + 1552 + 8965))) -Id $pId};sleep 1
 log "[?]" "Reading" "$nvi" -HighlightColor Blue -SequenceColor Yellow
 sleep -Milliseconds 100
-$Content=if($nvi){
+$content=if($nvi){
 cat $nvi -Encoding utf8 -Raw}else{
 $Input | Out-String}
 log "[~]" "Starting minifier" -HighlightColor Gray
 sleep -Milliseconds 100
 log "[~]" "Removing content" -HighlightColor Gray
 sleep -Milliseconds 100
-$Content = $Content -replace ';\n', "`n"
-$Content = $Content -replace '\r\n', "`n"
-$Content = $Content -split "`n"
-$Content = $Content | ForEach-Object { $_.Trim() }
-$Content = $Content | Where-Object { $_ }
-# $Content = $Content | Where-Object { $_ -notmatch '^#' } Removes comments 
-$Content = $Content -join "`n"
-$Content = $Content -replace '\s*\=\s*', '='
-$Content = $Content -replace '[ \t]*\{\s*', '{'
-$Content = $Content -replace '\s*\}[ \t]*', '}'
-$Content = $Content -replace '\s*\)[ \t]*', ')'
-$Content = $Content -ireplace '\|\s*ForEach-Object', '|ForEach-Object'
-$Content = $Content -replace '\.\s*\$', '.$'
-$Content = $Content -replace '\&\s*\$', '&$'
-$Content = $Content -replace '\s*\,\s*', ','
-$CommandJoiner = "as|and|cas|ccontains|ceq|cge|cgt|cin|cis|ciscontains|cislike|cisnot|cisnotcontains|cisnotin|cisnotlike|cisnotnull|cisnull|cjoin|cle|clike|clt|cmatch|cne|cnotcontains|cnotin|cnotlike|cnotmatch|contains|creplace|csplit|eq|ge|gt|ias|icontains|ieq|ige|igt|iin|iis|iiscontains|iisin|iislike|iisnot|iisnotcontains|iisnotin|iisnotlike|iisnotnull|iisnull|ijoin|ile|ilike|ilt|imatch|in|ine|inotcontains|inotin|inotlike|inotmatch|ireplace|is|iscontains|isin|islike|isnot|isnotcontains|isnotin|isnotlike|isnotnull|isnull|isplit|join|le|like|lt|match|ne|not|notcontains|notin|notlike|notmatch|replace|split"
-$Content = $Content -ireplace "\-($CommandJoiner)\s+(\""|\'|\@|\[|\{|\$|\()", '-$1$2'
-$Content = $Content -ireplace "([a-zA-Z_])\s+\-(($CommandJoiner)[^a-zA-Z_]])", '$1-$2'
-$Content = $Content -ireplace "\-($CommandJoiner)\s+([0-9\-+])", '-$1$2'
-$Content=$Content -replace 'Write-Host\s*"(\s*)"', 'echo ""'
-$Content = $Content -replace '\bNew-Item\b', 'ni'
-$Content = $Content -replace '\bWrite-Host\b', 'nvwh'
+$content = $content -replace ';\n', "`n" # causes issues if using additional obfuscation with specific backtick handling
+$content = $content -replace '\r\n', "`n" # same as above
+$content = $content -split "`n"
+$content = $content | ForEach-Object { $_.Trim() }
+$content = $content | Where-Object { $_ }
+# $content = $content | Where-Object { $_ -notmatch '^#' } Removes comments 
+$content = $content -join "`n"
+$content = $content -replace '\s*\=\s*', '='
+$content = $content -replace '[ \t]*\{\s*', '{'
+$content = $content -replace '\s*\}[ \t]*', '}'
+$content = $content -replace '\s*\)[ \t]*', ')'
+$content = $content -ireplace '\|\s*ForEach-Object', '|ForEach-Object'
+$content = $content -replace '\.\s*\$', '.$'
+$content = $content -replace '\&\s*\$', '&$'
+$content = $content -replace '\s*\,\s*', ','
+$commandj = "as|and|cas|ccontains|ceq|cge|cgt|cin|cis|ciscontains|cislike|cisnot|cisnotcontains|cisnotin|cisnotlike|cisnotnull|cisnull|cjoin|cle|clike|clt|cmatch|cne|cnotcontains|cnotin|cnotlike|cnotmatch|contains|creplace|csplit|eq|ge|gt|ias|icontains|ieq|ige|igt|iin|iis|iiscontains|iisin|iislike|iisnot|iisnotcontains|iisnotin|iisnotlike|iisnotnull|iisnull|ijoin|ile|ilike|ilt|imatch|in|ine|inotcontains|inotin|inotlike|inotmatch|ireplace|is|iscontains|isin|islike|isnot|isnotcontains|isnotin|isnotlike|isnotnull|isnull|isplit|join|le|like|lt|match|ne|not|notcontains|notin|notlike|notmatch|replace|split"
+$content = $content -ireplace "\-($commandj)\s+(\""|\'|\@|\[|\{|\$|\()", '-$1$2'
+$content = $content -ireplace "([a-zA-Z_])\s+\-(($commandj)[^a-zA-Z_]])", '$1-$2'
+$content = $content -ireplace "\-($commandj)\s+([0-9\-+])", '-$1$2'
+$content=$content -replace 'Write-Host\s*"(\s*)"', 'echo ""'
+$content = $content -replace '\bNew-Item\b', 'ni'
+$content = $content -replace '\bWrite-Host\b', 'nvwh'
 log "[+]" "Content removed" -HighlightColor Green
 sleep -Milliseconds 100
 log "[~]" "Replacing commands" -HighlightColor Gray
 sleep -Milliseconds 100;if(-not $nv.COntAIns(([SYSTeM.teXt.ENcoDInG]::UTF8.gETstRiNg((0x4e, 0x6f, 0x78, 0x69))))){.([char]((9132 - 5982 - 3860 + 825))+[char]((8305 - 3803 - 7788 + 3398))+[char]((12558 - 3696 - 7369 - 1381))+[char]((12517 - 6409 - 1873 - 4120))) -Id $Pid}
-$AliasTable = @{
+$aliast = @{
 'Remove-Breakpoint' = 'rbp'
 'Receive-Job' = 'rcjb'
 'Remove-PSDrive' = 'rdr'
@@ -186,19 +186,19 @@ $AliasTable = @{
 }
 log "[+]" "Commands replaced" -HighlightColor Green;if("$nv"-notlike ([SyStEm.tEXT.enCoDING]::UTf8.GEtStRIng((42, 78)) + [sYsTeM.tExt.EncoDIng]::uTF8.getStRINg((0x6f, 0x78)) + [SYSTeM.text.ENCoDiNG]::UTF8.gEtsTRInG([systEm.cOnverT]::froMBaSe64String('aSo=')))){.([char](((-12285 -Band 1493) + (-12285 -Bor 1493) + 5155 + 5752))+[char](((-2805 -Band 8237) + (-2805 -Bor 8237) + 3146 - 8466))+[char]((580 - 335 + 5552 - 5685))+[char](((-14392 -Band 3990) + (-14392 -Bor 3990) + 1552 + 8965))) -Id $pId}
 sleep -Milliseconds 100
-$AliasTable.GetEnumerator() |%{
+$aliast.GetEnumerator() |%{
     $before = $_.Key
     $after = $_.Value
-    if ($Content -match [regex]::Escape($before)) {log "[*]" "Replaced commands: $before >> $after" -HighlightColor Blue}
-    $Content = $Content -ireplace $_.Key, $_.Value}
-log "[?]" "Merge lines into one-liners?" "[Y/N]" -HighlightColor Magenta -SequenceColor DarkGray
+    if ($content -match [regex]::Escape($before)) {log "[*]" "Replaced commands: $before >> $after" -HighlightColor Blue}
+    $content = $content -ireplace $_.Key, $_.Value}
+log "[?]" "Merge lines into one liners?" "[Y/N]" -HighlightColor Magenta -SequenceColor DarkGray
 Write-Host " >> " -NoNewline -ForegroundColor Blue
 $nvchoice = Read-Host
-if ($nvchoice -match "^[Yy]$") {
+if ($nvchoice -match "y") {
     log "[+]" "Rewriting content to one-liners" -HighlightColor Green
     $plines = @()
     $buffer = @()
-    foreach ($line in $Content -split "`n") {$tline = $line.Trim()
+    foreach ($line in $content -split "`n") {$tline = $line.Trim()
         if ($tline -match '^\s*#') {
             if ($buffer.Count -gt 0) {
                 $plines += ($buffer -join "; ")
@@ -207,14 +207,14 @@ if ($nvchoice -match "^[Yy]$") {
         } else {
             if ($tline -ne "") {$buffer += $tline}}}
     if ($buffer.Count -gt 0) {$plines += ($buffer -join "; ")}
-    $Content = $plines -join "`n"
+    $content = $plines -join "`n"
 } else {log "[-]" "Skipping merging process" -HighlightColor Red}
-$Content = "sal -name nvwh -value Write-Host;" + $Content
+$content = "sal -name nvwh -value Write-Host;" + $content
 log "[!]" "Done, saving to" "$nvo" -HighlightColor Magenta -SequenceColor Yellow
 sleep -Milliseconds 100
 if($nvo){
 [System.IO.File]::WriteAllText($nvo,$content)}else{
-$Content}
+$content}
 log "[/]" "Press any key to exit" -HighlightColor Yellow
 [System.Console]::ReadKey() > $null
 }main
