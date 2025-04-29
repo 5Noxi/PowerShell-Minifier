@@ -181,6 +181,7 @@ $aliast = @{
 '-ErrorAction' = '-ea'
 'Set-Item' = 'si'
 'Set-ItemProperty' = 'sp'
+'-Nonewline' = '-nonew'
 #'New-Item' = 'ni' Causes new-itempropety to stop working - added to the start
 #'New-ItemProperty' = Doesnt exist
 }
