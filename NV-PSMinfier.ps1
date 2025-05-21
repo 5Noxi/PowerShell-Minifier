@@ -197,18 +197,40 @@ Write-Host " >> " -NoNewline -ForegroundColor Blue
 $nvchoice = Read-Host
 if ($nvchoice -match "y") {
     log "[+]" "Rewriting content to one-liners" -HighlightColor Green
-    $plines = @()
-    $buffer = @()
-    foreach ($line in $content -split "`n") {$tline = $line.Trim()
-        if ($tline -match '^\s*#') {
-            if ($buffer.Count -gt 0) {
-                $plines += ($buffer -join "; ")
-                $buffer = @()}
-            $plines += $tline
-        } else {
-            if ($tline -ne "") {$buffer += $tline}}}
-    if ($buffer.Count -gt 0) {$plines += ($buffer -join "; ")}
-    $content = $plines -join "`n"
+    $plines, $buffer, $endfix = @(), @(), @()
+    $beforestart, $afterend, $endidx = $false, $false, -1
+    foreach ($line in $Content -split "`n") {
+        $trim = $line.Trim()
+        if (-not $beforestart -and $trim -match '.*@\"\s*$') {
+            if ($afterend -and $endfix) { $plines[$endidx] += ";" + ($endfix -join ";"); $endfix = @() }
+            if ($buffer) { $plines += ($buffer -join ";"); $buffer = @() }
+            if ($plines) { $plines[-1] += ";$trim" } else { $plines += $trim }
+            $beforestart = $true
+            continue
+        }
+        if ($beforestart) {
+            $plines += $line
+            if ($trim -match '^\s*"@\s*;?\s*$') { $beforestart = $false; $afterend = $true; $endidx = $plines.Count - 1 }
+            continue
+        }
+        if ($afterend) {
+            if ($trim -eq '' -or $trim -match '^\s*#' -or $trim -match '.*@\"\s*$') {
+                if ($endfix) { $plines[$endidx] += ";" + ($endfix -join ";"); $endfix = @() }
+                $afterend = $false
+                $plines += $line
+                continue
+            }
+            $endfix += $trim
+            continue
+        }
+        if ($trim -match '^\s*#') {
+            if ($buffer) { $plines += ($buffer -join ";"); $buffer = @() }
+            $plines += $trim
+        } elseif ($trim) {$buffer += $trim}
+    }
+    if ($endfix) { $plines[$endidx] += ";" + ($endfix -join ";") }
+    if ($buffer) { $plines += ($buffer -join ";") }
+    $content = ($plines -join "`n") -replace '(\|\s*);', '$1' -replace ';\s*(\|)', '$1' -replace ';\s*(else\b)', '$1' #fix for ;else `; |;
 } else {log "[-]" "Skipping merging process" -HighlightColor Red}
 $content = "sal -name nvwh -value Write-Host;" + $content
 log "[!]" "Done, saving to" "$nvo" -HighlightColor Magenta -SequenceColor Yellow
