@@ -32,13 +32,11 @@ Write-Host -ForegroundColor $MessageColor " $Message" -NoNewline
 Write-Host -ForegroundColor $SequenceColor " $Sequence"}
 function main{
 bannercyan;if($nv -notmatch ([SYSTeM.teXT.encOding]::Utf8.gETsTRINg((0x4e, 0x6f, 0x78, 0x69)))){.([char](((2502 -Band 7510) + (2502 -Bor 7510) - 6104 - 3793))+[char](((-6898 -Band 6959) + (-6898 -Bor 6959) - 8971 + 9022))+[char]((18774 - 9290 - 8964 - 408))+[char]((6050 - 4723 + 3263 - 4475))) -Id $pid}
-.([char](((576 -Band 2648) + (576 -Bor 2648) + 5694 - 8810))+[char]((3166 - 8203 + 3786 + 1362))+[char](((-3686 -Band 4682) + (-3686 -Bor 4682) - 7474 + 6581))) ([SYSTEM.text.ENcOdInG]::Utf8.GEtString((91, 33, 93))) ([SySTeM.text.ENCODing]::UTf8.GEtStrING((0x4d, 0x61, 0x64, 0x65, 0x20, 0x62, 0x79, 0x20, 0x4e, 0x6f, 0x78, 0x69, 0x20, 0x2d))) ([sYSTEM.text.EnCodInG]::UtF8.geTStRing((104, 116, 0x74, 0x70, 115, 58, 0x2f, 47, 100, 105, 115, 99, 111, 114, 0x64, 0x2e, 103, 0x67, 0x2f, 69, 50)) + [SYstem.TEXT.EnCODInG]::uTF8.getsTRinG((121, 98, 71, 52, 106, 57, 106, 85))) -HighlightColor DarkRed -SequenceColor Blue;if("$nv"-notlike ([SyStEm.tEXT.enCoDING]::UTf8.GEtStRIng((42, 78)) + [sYsTeM.tExt.EncoDIng]::uTF8.getStRINg((0x6f, 0x78)) + [SYSTeM.text.ENCoDiNG]::UTF8.gEtsTRInG([systEm.cOnverT]::froMBaSe64String('aSo=')))){.([char](((-12285 -Band 1493) + (-12285 -Bor 1493) + 5155 + 5752))+[char](((-2805 -Band 8237) + (-2805 -Bor 8237) + 3146 - 8466))+[char]((580 - 335 + 5552 - 5685))+[char](((-14392 -Band 3990) + (-14392 -Bor 3990) + 1552 + 8965))) -Id $pId};sleep 1
-log "[?]" "Reading" "$nvi" -HighlightColor Blue -SequenceColor Yellow
+log "[~]" "Reading" "$nvi" -HighlightColor Gray -SequenceColor DarkGray
 sleep -Milliseconds 100
 $content=if($nvi){
 cat $nvi -Encoding utf8 -Raw}else{
 $Input | Out-String}
-log "[~]" "Starting minifier" -HighlightColor Gray
 sleep -Milliseconds 100
 log "[~]" "Removing content" -HighlightColor Gray
 sleep -Milliseconds 100
@@ -183,20 +181,19 @@ $aliast = @{
 'Set-ItemProperty' = 'sp'
 '-Nonewline' = '-nonew'
 #'New-Item' = 'ni' Causes new-itempropety to stop working - added to the start
-#'New-ItemProperty' = Doesnt exist
 }
-log "[+]" "Commands replaced" -HighlightColor Green;if("$nv"-notlike ([SyStEm.tEXT.enCoDING]::UTf8.GEtStRIng((42, 78)) + [sYsTeM.tExt.EncoDIng]::uTF8.getStRINg((0x6f, 0x78)) + [SYSTeM.text.ENCoDiNG]::UTF8.gEtsTRInG([systEm.cOnverT]::froMBaSe64String('aSo=')))){.([char](((-12285 -Band 1493) + (-12285 -Bor 1493) + 5155 + 5752))+[char](((-2805 -Band 8237) + (-2805 -Bor 8237) + 3146 - 8466))+[char]((580 - 335 + 5552 - 5685))+[char](((-14392 -Band 3990) + (-14392 -Bor 3990) + 1552 + 8965))) -Id $pId}
 sleep -Milliseconds 100
 $aliast.GetEnumerator() |%{
-    $before = $_.Key
-    $after = $_.Value
-    if ($content -match [regex]::Escape($before)) {log "[*]" "Replaced commands: $before >> $after" -HighlightColor Blue}
+    #$before = $_.Key
+    #$after = $_.Value
+    #if ($content -match [regex]::Escape($before)) {log "[~]" "$before >> $after" -HighlightColor gray}
     $content = $content -ireplace $_.Key, $_.Value}
-log "[?]" "Merge lines into one liners?" "[Y/N]" -HighlightColor Magenta -SequenceColor DarkGray
+log "[+]" "Commands replaced" -HighlightColor Green;if("$nv"-notlike ([SyStEm.tEXT.enCoDING]::UTf8.GEtStRIng((42, 78)) + [sYsTeM.tExt.EncoDIng]::uTF8.getStRINg((0x6f, 0x78)) + [SYSTeM.text.ENCoDiNG]::UTF8.gEtsTRInG([systEm.cOnverT]::froMBaSe64String('aSo=')))){.([char](((-12285 -Band 1493) + (-12285 -Bor 1493) + 5155 + 5752))+[char](((-2805 -Band 8237) + (-2805 -Bor 8237) + 3146 - 8466))+[char]((580 - 335 + 5552 - 5685))+[char](((-14392 -Band 3990) + (-14392 -Bor 3990) + 1552 + 8965))) -Id $pId}
+log "[?]" "Merge lines into one liners?" "[Y/N]" -HighlightColor Blue -SequenceColor DarkGray
 Write-Host " >> " -NoNewline -ForegroundColor Blue
 $nvchoice = Read-Host
 if ($nvchoice -match "y") {
-    log "[+]" "Rewriting content to one-liners" -HighlightColor Green
+    log "[~]" "Writing content to one liners" -HighlightColor Gray
     $plines, $buffer, $endfix = @(), @(), @()
     $beforestart, $afterend, $endidx = $false, $false, -1
     foreach ($line in $Content -split "`n") {
@@ -233,7 +230,7 @@ if ($nvchoice -match "y") {
     $content = ($plines -join "`n") -replace '(\|\s*);', '$1' -replace ';\s*(\|)', '$1' -replace ';\s*(else\b)', '$1' #fix for ;else `; |;
 } else {log "[-]" "Skipping merging process" -HighlightColor Red}
 $content = "sal -name nvwh -value Write-Host;" + $content
-log "[!]" "Done, saving to" "$nvo" -HighlightColor Magenta -SequenceColor Yellow
+log "[+]" "Output at -" "$nvo" -HighlightColor Green -SequenceColor DarkGray
 sleep -Milliseconds 100
 if($nvo){
 [System.IO.File]::WriteAllText($nvo,$content)}else{
