@@ -1,5 +1,5 @@
 # PowerShell-Minifier
-⠀
+
 Removes unnecessary content (extra spaces...), formatting, replaces commands with their aliases to create a "**minified**" version of the script. (Alias taken from '*get-alias*') Afterwards, creates one liners (optional), by writing all lines into one line and splitting them with `;`. *(skips comments)* You may have to rewrite your code a bit, as rewriting them into one liners sometimes causes issues!
 
 __Simple examples of a errors (these are fixed):__
