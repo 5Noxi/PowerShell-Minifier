@@ -2,6 +2,10 @@
 
 Removes unnecessary content (extra spaces...), formatting, replaces cmdlets/parameters/operators with their alias to create a "minified" version of the script. It supports code with non ASCII characters. Depending on the selected options, it'll minify it even more. You may have to rewrite your code a bit, as rewriting them into one liners sometimes causes issues! `Input File` is mandatory, if the `Output File` path isn't set, it'll use the current file name and adds `NV-`.
 
+Preview:
+
+https://github.com/user-attachments/assets/e160a5bc-0e0b-41e4-afcd-3caebff7dc5a
+
 `Remove Comments` - Removes all kind of comments
 > https://github.com/5noxi/PowerShell-Docs/blob/main/reference/7.5/Microsoft.PowerShell.Core/About/about_Comments.md
 
