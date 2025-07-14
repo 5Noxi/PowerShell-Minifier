@@ -1,6 +1,6 @@
 # PowerShell Minifier
 
-Removes unnecessary content (extra spaces...), formatting, replaces cmdlets/parameters/operators with their alias to create a "minified" version of the script. It supports code with non ASCII characters. Depending on the selected options, it'll minify it even more. You may have to rewrite your code a bit, as rewriting them into one liners sometimes causes issues! `Input File` is mandatory, if the `Output File` path isn't set, it'll use the current file name and adds `NV-`.
+Removes unnecessary content (extra spaces...), formatting, replaces cmdlets/parameters/operators with their alias to create a "minified" version of the script. It supports code with non ASCII characters. Depending on the selected options, it'll minify it even more. You may have to rewrite your code a bit, as rewriting them into one liners sometimes causes issues! `Input File` is mandatory, if the `Output File` path isn't set, it'll use the current file name and adds `NV-`. Individual lines of the content replace part were taken from [psminnifyer](https://github.com/steve02081504/psminnifyer/blob/master/psminnifyer.ps1).
 
 Preview:
 
