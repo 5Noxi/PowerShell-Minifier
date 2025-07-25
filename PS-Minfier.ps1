@@ -277,7 +277,7 @@ function nvmini {
         }
         if ($endfix) { $plines[$endidx] += ";" + ($endfix -join ";") }
         if ($buffer) { $plines += ($buffer -join ";") }
-        $code = ($plines -join "`n") -replace '(\|\s*);', '$1' -replace ';\s*(\|)', '$1' -replace ';\s*(else\b)', '$1' -replace '\(\s*;', '('
+        $code = ($plines -join "`n") -replace '(\|\s*);', '$1' -replace ';\s*(\|)', '$1' -replace ';\s*(else\b)', '$1' -replace '\(\s*;', '(' -replace '(;\s*\+|\+\s*;)', '+'
         $code = $code -replace ';\s*(-\w+)', ' $1'
         $code = $code -replace '(\(\)\])\s*;\s*', '$1 '
     }
