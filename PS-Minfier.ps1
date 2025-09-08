@@ -117,7 +117,6 @@ function nvmini {
         log "[~]" "Replacing commands" -HighlightColor Gray # https://github.com/5noxi/PowerShell-Docs/blob/main/reference/7.5/Microsoft.PowerShell.Utility/Get-Alias.md
         $code = $code -replace '\bWrite-Host\b', $whvar
         $code=$code -replace 'Write-Host\s*"(\s*)"', 'echo ""'
-        $code = $code -replace '\bNew-Item\b', 'ni'
         $aliast = @{
             'Remove-Breakpoint' = 'rbp'
             'Receive-Job' = 'rcjb'
@@ -205,6 +204,7 @@ function nvmini {
             'Move-Item' = 'mv'
             'Move-ItemProperty' = 'mp'
             'New-Alias' = 'nal'
+            'New-Item' = 'ni'
             'New-PSDrive' = 'ndr'
             'New-Module' = 'nmo'
             'New-PSSession' = 'nsn'
@@ -231,13 +231,19 @@ function nvmini {
             'Set-Item' = 'si'
             'Set-ItemProperty' = 'sp'
         }
-        $aliast.GetEnumerator() |%{
-            if ($state.logdetail) {
-                $before = $_.Key
-                $after = $_.Value
-                if ($code -match [regex]::Escape($before)) {log "[~]" "$before - $after" -HighlightColor gray}
+        $aliast.GetEnumerator() | % {
+            $before  = $_.Key
+            $after   = $_.Value
+            $pattern = '\b' + [regex]::Escape($before) + '\b'
+            if ($code -match $pattern) {
+                if ($state.logdetail) { log "[~]" "$before -> $after" -HighlightColor gray }
+                $code = [regex]::Replace(
+                    $code,
+                    $pattern,
+                    [System.Text.RegularExpressions.MatchEvaluator]{ param($m) $after },
+                    [System.Text.RegularExpressions.RegexOptions]::IgnoreCase
+                )
             }
-            $code = $code -ireplace $_.Key, $_.Value
         }
         log "[+]" "Commands replaced" -HighlightColor Green
     }
