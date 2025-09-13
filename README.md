@@ -41,6 +41,3 @@ $var.Where(
 ```ps
 param([string] $Param1,$Param2);$var=1,2,2;$var.Where({$_ -eq2},'First',1)
 ```
-
- ## Discord Server 
-- https://discord.gg/E2ybG4j9jU
